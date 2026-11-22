@@ -1,0 +1,292 @@
+/*
+  Medidas tomadas del rediseño (390 × 844).
+  Fraunces 300: títulos y nombres. Nunito Sans 300: textos. Nunito Sans 400: botones, menú y datos.
+  Tres colores de texto: --ink (principal), --soft (secundario), --accent (datos y selección).
+*/
+:root{--ink:#f3fbf9;--soft:#e5f3f3;--accent:#b9efe6;--cta:#dff5f0;--on:#0b3d50;--chip:rgba(3,34,50,.62);--veil:rgba(3,35,53,.66);--veil-deep:rgba(3,31,48,.82);--veil-home:rgba(3,35,53,.24);--row:rgba(243,251,249,.08);--line:rgba(243,251,249,.17);--bar:#dff5f0;--on-soft:#315f6c;--logo-dot:#8fdcf7;--count:#083c4d;background:#124f70;color:var(--ink);font:300 16px/24px 'Nunito Sans',sans-serif;color-scheme:dark}
+[data-theme=atardecer]{--ink:#fff5ee;--soft:#ecdaee;--accent:#fdd6af;--cta:#fde8d5;--on:#3b2149;--chip:rgba(34,17,60,.42);--veil:rgba(26,11,58,.51);--veil-deep:rgba(24,11,52,.74);--veil-home:rgba(26,11,58,.2);--row:rgba(255,235,240,.085);--line:rgba(255,235,240,.15);--bar:#fde8d5;--on-soft:#70506f;--logo-dot:#ffd0a6;--count:#5a2945;background:#1d1945}
+[data-theme=noche]{--ink:#f5f7fc;--soft:#cfd9ea;--accent:#b9d2f7;--cta:#dde8f8;--on:#14284c;--chip:rgba(5,14,36,.5);--veil:rgba(4,11,28,.45);--veil-deep:rgba(4,11,28,.68);--veil-home:transparent;--row:rgba(225,237,255,.09);--line:rgba(225,237,255,.14);--bar:#b4c5df;--on-soft:#2b4066;--logo-dot:#82b1f5;--count:#1b3158;background:#030818}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden;overscroll-behavior:none}
+button,a{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+button{background:none;border:0;padding:0}
+:focus-visible{outline:1px solid var(--accent);outline-offset:3px}
+:disabled{opacity:.4;cursor:default}
+h1,h2,b,.brand,.count{font-family:Fraunces,Georgia,serif;font-weight:300}
+h1{margin:0;font-size:42px;line-height:50px;text-wrap:balance}
+h2,p{margin:0}
+b{display:block}
+svg{display:block;overflow:visible;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+i{font-style:normal}
+
+/* paisaje */
+.scene,.veil{position:fixed;left:0;top:0;width:100%;height:100vh;height:100lvh;pointer-events:none}
+.scene{z-index:-2}
+.veil{z-index:-1;background:var(--veil);transition:background-color 1.3s cubic-bezier(.37,0,.63,1)}
+/* home: apenas, solo de día y al atardecer · soft: detalles y respiración · deep: listas */
+.veil.none{background:transparent}
+.veil.home{background:var(--veil-home)}
+.veil.deep{background:var(--veil-deep)}
+
+/* armazón: arriba y abajo fijos, desliza solo el medio */
+.app{height:100vh;height:100dvh;max-width:480px;margin:auto;display:flex;flex-direction:column}
+header{flex:none;display:flex;justify-content:space-between;align-items:center;height:calc(48px + max(20px,env(safe-area-inset-top)));padding:max(20px,env(safe-area-inset-top)) 28px 0}
+.brand{height:48px;display:flex;align-items:center;padding-top:3px}
+.brand .logo{width:80px;height:auto}
+.logo{flex:none;stroke:none}
+.logo-dot{fill:var(--logo-dot);transition:fill 1.5s ease}
+.tool{width:44px;height:48px;flex:none;display:grid;place-items:center}
+.tool.start{margin-left:-13px}.tool.end{margin-right:-14px}
+.icon{width:20px;height:20px;stroke-width:1.4}
+.icon.back{width:24px;height:24px;stroke-width:1.3}
+.icon.heart{width:24px;height:24px;color:var(--accent);stroke-width:1.3}
+.speaker{display:flex;align-items:center;gap:4px;margin-right:-14px}
+.brief{font-size:11px;color:var(--soft);animation:vanish 1s 7s forwards}@keyframes vanish{to{opacity:0}}
+.screen{flex:1;min-height:0;display:flex;flex-direction:column}
+.scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:0 28px 20px;scrollbar-width:none;-webkit-mask:linear-gradient(#000 calc(100% - 20px),transparent);mask:linear-gradient(#000 calc(100% - 20px),transparent)}
+.scroll::-webkit-scrollbar{display:none}
+footer{flex:none}
+.primary{display:grid;place-items:center;width:100%;height:56px;border-radius:28px;background:var(--cta);color:var(--on);font-size:17px;font-weight:400;text-decoration:none}
+.subtitle{color:var(--soft)}
+
+/* una barra entera, del color del botón principal (de noche, un punto más bajo para no encandilar) */
+nav{flex:none;display:flex;align-items:center;width:100vw;margin-left:calc(50% - 50vw);height:calc(76px + env(safe-area-inset-bottom));padding:0 max(10px,(100vw - 480px)/2) env(safe-area-inset-bottom);border-radius:26px 26px 0 0;background:var(--bar);transition:background-color .9s}
+nav button{flex:1;height:60px;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:15px;font-weight:400;line-height:22px;color:var(--on-soft)}
+nav svg{width:24px;height:22px;stroke-width:1.2}
+nav [aria-current]{color:var(--on);background:rgba(20,15,50,.1)}
+nav :focus-visible{outline-color:var(--on)}
+
+/* bienvenida: el paisaje entero, sin overlay */
+.welcome{height:100vh;height:100dvh}
+.enter{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;padding:max(min(104px,12.3dvh),calc(env(safe-area-inset-top) + 24px)) 20px calc(50.5px + env(safe-area-inset-bottom));color:var(--ink);text-align:center}
+.enter:focus-visible{outline:none}
+.enter:focus-visible .hint{text-decoration:underline;text-underline-offset:6px}
+.welcome-logo{width:min(195px,28dvh);height:auto}
+.tagline{margin-top:min(26px,3.1dvh);font-size:17px}
+.hint{margin-top:auto}
+
+/* inicio */
+.home{padding-top:40px;text-align:center}
+.home h1 span{color:var(--accent)}
+.needs{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:320px;margin:23px auto 0}
+.need{height:44px;min-width:0;padding:0 6px;border-radius:22px;background:var(--chip);font-weight:400;white-space:nowrap}
+.home .subtitle{margin-top:11px}
+
+/* listas */
+.listing{padding-top:44px;-webkit-mask:linear-gradient(transparent,#000 14px calc(100% - 20px),transparent);mask:linear-gradient(transparent,#000 14px calc(100% - 20px),transparent)}
+.listing .subtitle{margin-top:6px}
+.use{display:block;color:var(--soft);font:300 15px/22px 'Nunito Sans',sans-serif}
+.accordion{margin-top:32px}
+.group,.breath,.emblem{--tint:140,194,205}
+[data-group='Volver al presente']{--tint:171,168,228}
+[data-group='Acompañar lo que sientes']{--tint:224,159,186}
+[data-group='Relajar el cuerpo']{--tint:168,202,162}
+[data-group='Dormir']{--tint:146,166,224}
+[data-group='Comenzar y cerrar el día']{--tint:237,202,169}
+[data-group='Favoritas']{--tint:253,214,175}
+.group{border-bottom:1px solid var(--line)}
+.group-head{width:100%;min-height:76px;display:flex;align-items:center;gap:16px;padding:12px 0 13px;text-align:left}
+.group-head>span{flex:1}
+.group-head .use{margin-top:3px;text-wrap:pretty}
+.dot{flex:none;width:10px;height:10px;border-radius:50%;background:rgb(var(--tint))}
+.icon.chevron{flex:none;width:18px;height:18px;color:var(--soft);stroke-width:1.5;transition:transform .75s var(--soft-ease)}
+[aria-expanded=true] .chevron{transform:rotate(180deg)}
+.practices{display:grid;gap:6px}
+.group .practices{padding:0 0 18px 26px}
+.practice{width:100%;min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 20px;border-radius:22px;background:var(--row);text-align:left}
+.practice b{font-size:18px;line-height:23px}
+.minutes{flex:none;color:var(--accent);font-size:14px;font-weight:400}
+.moment{display:block;color:var(--accent);font-size:12px;line-height:16px;font-weight:400}
+.breaths{margin-top:32px}
+.breath{width:100%;min-height:88px;display:flex;align-items:center;gap:20px;padding:12px 0 13px;text-align:left}
+.breaths .breath{border-bottom:1px solid var(--line)}
+.ring{flex:none;width:56px;height:56px;border:1px solid rgb(var(--tint));border-radius:50%;color:rgb(var(--tint))}
+.ring svg{width:100%;height:100%;stroke-width:1.3}
+/* mismo título que los tipos de Meditar */
+.breath b,.group-head{font-size:20px;line-height:26px}
+.breath .purpose{display:block;margin-top:2px;color:var(--accent);font:400 15px/20px 'Nunito Sans',sans-serif}
+.breath .use{margin-top:1px;font-size:14px;line-height:19px}
+[data-id=vaciarse]{--tint:160,211,226}
+[data-id=suspiro]{--tint:238,178,185}
+[data-id=pareja]{--tint:189,215,183}
+[data-id=cuadrada]{--tint:237,202,169}
+[data-id='478']{--tint:193,185,239}
+.install{display:flex;align-items:center;margin-top:130px;color:var(--soft);font-size:13px;line-height:18px}
+.recommended h2{margin:32px 0 14px;font-size:20px}
+/* recomendada: la misma tarjeta que las meditaciones, para que se note que se toca */
+.recommended .breath{min-height:64px;gap:14px;padding:9px 20px 9px 12px;border-radius:22px;background:var(--row)}
+.recommended .ring{width:40px;height:40px}
+.recommended .ring svg{stroke-width:1.7}
+.recommended .breath b{font-size:18px;line-height:23px}
+.recommended .breath .purpose{font-size:14px;line-height:19px}
+
+/* música */
+.music section{margin-top:34px}
+.music h2{font-size:20px;line-height:26px}
+.music .use{margin-top:3px}
+.covers{display:grid;grid-template-columns:1fr 1fr;gap:22px 14px;margin-top:16px}
+.track{display:block;min-width:0;text-decoration:none;transition:opacity .25s}
+.track:active{opacity:.75}
+.cover{position:relative;display:block;aspect-ratio:1;overflow:hidden;border-radius:22px;background:var(--row)}
+.cover-art{display:block;width:100%;height:100%;object-fit:cover;opacity:0;transition:filter 1.5s,opacity 1s var(--soft-ease)}
+.cover-art[data-shown=true]{opacity:1}
+[data-theme=noche] .cover-art{filter:brightness(.82)}
+/* si una sección tiene cantidad impar, la última ocupa todo el ancho */
+.covers>.track:last-child:nth-child(odd){grid-column:1/-1}
+.covers>.track:last-child:nth-child(odd) .cover{aspect-ratio:2.1}
+.play{position:absolute;left:10px;bottom:10px;width:30px;height:30px;display:grid;place-items:center;border-radius:50%;background:rgba(12,10,30,.5)}
+.play svg{width:12px;height:12px;fill:#fff;stroke:none}
+.track b{margin-top:10px;font-size:18px;line-height:23px}
+.about-track{display:block;margin-top:3px;color:var(--soft);font-size:14px;line-height:19px;text-wrap:pretty}
+
+/* "No lo sé" */
+.unsure{padding-top:72px;text-align:center}
+.unsure-text{max-width:300px;margin:16px auto 0;font-size:18px;line-height:28px;text-wrap:balance}
+.unsure-how{max-width:300px;margin:20px auto 0;color:var(--soft);font-size:15px;line-height:24px;text-wrap:balance}
+.single{padding:0 28px 28px;text-align:center}
+.single .caution{margin:0 0 16px}
+
+/* detalle de meditación */
+.meditation{padding-top:40px;text-align:center}
+.emblem{display:grid;place-items:center;width:128px;height:128px;margin:0 auto;border:1px solid rgba(var(--tint),.8);border-radius:50%;background:rgba(var(--tint),.15)}
+.emblem svg{width:86px;height:86px;stroke-width:.55}
+.meditation h1{margin-top:36px}
+.lead{max-width:262px;margin:14px auto 0;font-size:18px;line-height:28px}
+.length{margin-top:12px;color:var(--accent);font-size:15px;line-height:22px;font-weight:400}
+.listen{padding:0 32px calc(36px + env(safe-area-inset-bottom));text-align:center}
+.aside{max-width:218px;margin:0 auto 14px}
+.by{margin-top:11px;color:var(--soft);font-size:14px;line-height:22px;font-weight:400}
+
+/* detalle de respiración */
+.technique{display:flex;flex-direction:column;padding-top:28px;padding-bottom:16px;-webkit-mask:linear-gradient(#000 calc(100% - 14px),transparent);mask:linear-gradient(#000 calc(100% - 14px),transparent)}
+.technique>*{flex-shrink:0}
+.aim{margin-top:6px;color:var(--accent);font-size:19px;line-height:26px;font-weight:400}
+.explain{margin:16px 0 0}
+.explain dt{color:var(--accent);font-size:13px;line-height:18px;font-weight:400}
+.explain dd{margin:2px 0 11px;font-size:15px;line-height:21px;text-wrap:pretty}
+.chart{margin-top:10px;color:var(--accent)}
+.chart svg{width:100%;height:52px;stroke-width:1.3}
+.chart path{vector-effect:non-scaling-stroke}
+.chart .tick{stroke:var(--line);stroke-dasharray:2 5}
+.labels{display:flex;margin-top:8px;font-size:15px;line-height:22px;font-weight:400}
+.labels span{flex-basis:0;min-width:0;display:flex;flex-direction:column;align-items:center;white-space:nowrap}
+.labels small{color:var(--soft);font-size:13px;line-height:18px;font-weight:300}
+.options{margin-top:auto;padding-top:16px}
+.durations{display:flex;gap:8px}
+.duration,.rounds{flex:1;height:44px;border:1px solid transparent;border-radius:22px;background:rgba(20,8,42,.16);font-weight:400}
+.duration[aria-pressed=true],.rounds{border-color:var(--accent);background:none;color:var(--accent)}
+.rounds{line-height:42px;text-align:center}
+.toggle{width:100%;height:44px;display:flex;justify-content:space-between;align-items:center;margin-top:16px;font-weight:400}
+.toggle i{position:relative;width:44px;height:26px;border-radius:13px;background:rgba(255,255,255,.2);transition:background .25s}
+.toggle i:after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--ink);transition:transform .25s}
+.toggle[aria-checked=true] i{background:var(--accent)}
+.toggle[aria-checked=true] i:after{transform:translateX(18px);background:var(--on)}
+.caution{margin-top:16px;color:var(--accent);font-size:14px;line-height:21px;font-weight:400}
+.launch{padding:0 28px calc(32px + env(safe-area-inset-bottom))}
+
+/* respirando */
+.session{align-items:center;text-align:center;padding-top:min(96px,11.4dvh)}
+.session h1{flex:none}
+.via{flex:none;height:26px;margin-top:6px;color:var(--accent);font-size:19px;line-height:26px;font-weight:400}
+.orb{position:relative;flex:none;width:min(71.6vw,33.1dvh,310px);aspect-ratio:1;margin-top:min(46px,5.4dvh)}
+.limit,.ball,.count{position:absolute;inset:0;border-radius:50%}
+.limit{border:1px solid var(--accent);opacity:.6}
+.ball{overflow:hidden;isolation:isolate;will-change:transform;background:radial-gradient(circle at 36% 26%,#f4ffff,#c5eeed 48%,#8ecdd5)}
+.water{position:absolute;inset:0}
+.water svg{position:absolute;left:0;top:0;width:200%;height:100%;stroke:none;animation:flow 7s linear infinite}
+.water .behind{fill:#8fd6d8;top:-4%;animation-duration:11s;animation-direction:reverse}
+.water .ahead{fill:#6cc0cb;opacity:.72}
+@keyframes flow{to{transform:translateX(-50%)}}
+[data-theme=atardecer] .ball{background:radial-gradient(circle at 50% 43%,#fff4d6,#ffe2aa 38%,#fdc596 64%,#f5aa8c 76%)}
+[data-theme=noche] .ball{background:
+ radial-gradient(ellipse 13% 11% at 24% 40%,#7890b455,#7890b422 70%,transparent),
+ radial-gradient(ellipse 17% 14% at 71% 70%,#7890b440,#7890b41c 72%,transparent),
+ radial-gradient(circle at 80% 36%,#7890b450 0 2.5%,transparent 4%),
+ radial-gradient(circle at 35% 78%,#7890b440 0 3.5%,transparent 5%),
+ radial-gradient(circle at 37% 30%,#fff,#dce7f6 48%,#a5b8d6 76%)}
+[data-theme=atardecer] .water,[data-theme=noche] .water{display:none}
+.count{display:grid;place-items:center;color:var(--count);font-size:64px;font-variant-numeric:lining-nums}
+.left{margin-top:min(76px,7dvh + 17px);font-weight:400;font-variant-numeric:tabular-nums}
+.lock{margin-top:8px;padding:0 20px;color:var(--soft);font-size:13px;line-height:18px}
+.controls{align-self:stretch;display:flex;justify-content:center;gap:37px;margin-top:auto;padding-bottom:calc(37px + env(safe-area-inset-bottom))}
+.controls button{width:110px;height:48px;font-size:17px;font-weight:400}
+
+/* guía de la primera vez */
+.guide{position:fixed;inset:0;z-index:4;overflow:hidden;animation:arrive 1.2s var(--soft-ease) both;transition:opacity .75s var(--soft-ease)}
+.guide[data-closing=true]{opacity:0;pointer-events:none}
+.spot{position:absolute;box-shadow:0 0 0 200vmax var(--veil-deep);outline:1px solid var(--accent);outline-offset:2px;transition:all .95s var(--soft-ease)}
+.note{position:absolute;left:50%;transform:translateX(-50%);width:min(342px,100% - 28px);padding:20px 22px 16px;border-radius:26px;background:var(--cta);color:var(--on);transition:top .95s var(--soft-ease)}
+.note:focus{outline:none}
+.note-text{animation:arrive .9s var(--soft-ease) both}
+.note h2{font-size:22px;line-height:28px}
+.note p{margin-top:8px;font-size:16px;line-height:24px;font-weight:400}
+.note-foot{display:flex;align-items:center;gap:6px;margin-top:14px}
+.note :focus-visible{outline-color:var(--on)}
+.progress{flex:1;display:flex;gap:6px}
+.progress i{width:6px;height:6px;border-radius:3px;background:currentColor;opacity:.25;transition:width .4s,opacity .4s}
+.progress i[data-active=true]{width:18px;opacity:1}
+.skip{height:44px;padding:0 12px;color:var(--on-soft);font-size:15px;font-weight:400}
+.ok{height:44px;padding:0 24px;border-radius:22px;background:var(--on);color:var(--cta);font-weight:400}
+
+@media(max-height:700px){
+ .note{width:min(342px,100% - 16px);padding:12px 16px 10px}
+ .note h2{font-size:19px;line-height:24px}.note p{margin-top:4px;font-size:14.5px;line-height:20px}
+ .note-foot{margin-top:6px}.ok,.skip{height:42px}
+}
+@media(prefers-reduced-motion:reduce){.spot,.note{transition:none}}
+.test{position:fixed;top:0;left:50%;transform:translateX(-50%);z-index:3;white-space:nowrap;display:flex;color:var(--soft);font-size:10px;line-height:18px}
+.test button{padding:0 7px}.test [aria-pressed=true]{color:var(--ink);text-decoration:underline}
+
+@media(max-height:700px){
+ .needs{margin-top:14px;gap:6px}.need{height:42px}
+ .unsure{padding-top:16px}.unsure-text{margin-top:10px;font-size:17px;line-height:25px}.unsure-how{margin-top:12px;line-height:22px}
+ .single{padding-bottom:14px}.single .caution{margin-bottom:10px}
+}
+@media(max-width:370px){
+ header,.scroll{padding-left:20px;padding-right:20px}
+ .group-head{gap:12px}.group-head,.breath b{font-size:18px}.group .practices{padding-left:22px}.practice{padding:8px 14px}.practice b{font-size:17px}
+ .labels{font-size:13px}.labels small{font-size:11px}.launch{padding-left:20px;padding-right:20px}
+}
+@media(max-height:700px){
+ h1{font-size:36px;line-height:42px}
+ .home{padding-top:12px}.home .subtitle{margin-top:6px}
+ .listing{padding-top:20px}.meditation{padding-top:8px}
+ .emblem{width:104px;height:104px}.emblem svg{width:70px;height:70px}.meditation h1{margin-top:18px}
+ .listen{padding-bottom:calc(16px + env(safe-area-inset-bottom))}
+ .technique{padding-top:12px}.launch{padding-top:8px;padding-bottom:calc(16px + env(safe-area-inset-bottom))}
+ .left{margin-top:20px}.controls{padding-bottom:calc(14px + env(safe-area-inset-bottom))}
+}
+/*
+  Transiciones entre pantallas: transition.ts (fundido cruzado).
+  Acá solo queda cómo abre la app y los fundidos chiquitos de adentro.
+*/
+:root{
+ --soft-ease:cubic-bezier(.37,0,.63,1); /* seno: empieza y termina sin golpe */
+}
+.scene{animation:arrive 1.8s var(--soft-ease) both}
+.welcome{animation:arrive 2s .3s var(--soft-ease) both}
+/* la copia que se está yendo: congelada y sin recibir toques */
+.ghost{z-index:1;max-width:none;pointer-events:none}
+.ghost,.ghost *{animation:none!important;transition:none!important}
+@keyframes arrive{from{opacity:0}}
+
+.fold{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .75s var(--soft-ease),opacity .5s var(--soft-ease)}
+.fold>div{min-height:0;overflow:hidden}
+.fold[data-open=true]{grid-template-rows:1fr;opacity:1;transition:grid-template-rows .75s var(--soft-ease),opacity .65s .15s var(--soft-ease)}
+
+nav button{transition:color .9s var(--soft-ease),background-color .9s var(--soft-ease)}
+.duration{transition:color .4s,background-color .4s,border-color .4s}
+.primary,.need,.practice{transition:background-color .9s,color .9s,opacity .25s}
+.primary:active,.need:active,.practice:active,.breath:active{opacity:.75}
+.breath{transition:opacity .25s}
+.favorite path{fill:currentColor;fill-opacity:0;transition:fill-opacity .45s}
+.favorite[aria-pressed=true] path{fill-opacity:1}
+.controls button{transition:opacity .6s}
+.speaker .icon{animation:arrive .4s ease both}
+.swap{display:inline-block;animation:arrive .85s var(--soft-ease) both}
+.tick{animation:arrive-count .35s ease both}
+@keyframes arrive-count{from{opacity:.2}}
+
+/* con "reducir movimiento" se mantienen los fundidos, sin desplazamiento */
+@media(prefers-reduced-motion:reduce){.water svg{animation:none}.fold,.fold[data-open=true]{transition:opacity .4s ease}}
