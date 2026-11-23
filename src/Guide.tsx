@@ -4,10 +4,8 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 const steps = [
   { target: '[data-sound]', shape: 'circle', pad: 4, title: 'El sonido del agua',
     text: 'Está para acompañarte. Con este parlantito puedes apagarlo o volver a encenderlo cuando quieras.' },
-  { target: '.needs', shape: 'area', pad: 10, title: 'Si sabes qué te haría bien',
-    text: 'Toca una opción y te recomendaremos qué escuchar o respirar. Si no lo sabes, también está bien: toca “No lo sé”.' },
-  { target: 'nav', shape: 'bar', pad: 0, title: 'O a tu manera',
-    text: 'Aquí puedes meditar, respirar o escuchar música: tú eliges lo que más te guste.' },
+  { target: '.paths', shape: 'area', pad: 10, title: 'Tú eliges',
+    text: 'Puedes meditar, respirar o escuchar música, lo que más te guste.' },
   { target: '.brand', shape: 'area', pad: 8, title: 'Siempre puedes volver',
     text: 'Cuando quieras regresar al inicio, toca el logo.' },
 ]

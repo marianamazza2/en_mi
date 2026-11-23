@@ -1,10 +1,5 @@
 // Todos los textos de meditaciones y respiraciones se editan acá.
 // Tono: suave y amoroso. Invitar en vez de ordenar ("deja", "permítete"), "te cuesta" en vez de "no puedes".
-// El inicio pregunta qué necesita, no qué le pasa: cada opción es un lugar adonde ir, no una etiqueta.
-export const needs = ['Sentir calma', 'Ir más despacio', 'Soltar tensión', 'Un abrazo', 'Una pausa', 'Agradecer', 'Dormir en paz', 'No lo sé'] as const
-export type Need = (typeof needs)[number]
-export const UNSURE = 'No lo sé' satisfies Need
-
 export type Via = 'nariz' | 'boca'
 // via: por dónde va el aire; al mantener no lleva
 export type Step = { label: string; seconds: number; to: number; via?: Via }
@@ -52,23 +47,3 @@ export const meditations = [
   { id: '0FPDAIiwfswNE4fFo0PX6W', group: 'Comenzar y cerrar el día', name: 'Gratitud', moment: 'Al cerrar el día', about: 'Para despedir el día agradeciendo lo vivido.', by: 'Yazmín López', minutes: 9 },
 ]
 export type Meditation = (typeof meditations)[number]
-
-// Al tocar: primero se valida lo que siente (title), después se lo acompaña (text).
-export const advice: Record<Exclude<Need, typeof UNSURE>, { title: string; text: string; breath: string; meditations: string[] }> = {
-  'Sentir calma': { title: 'Está bien sentirte así.', text: 'Aquí puedes aflojar, de a poquito.', breath: 'vaciarse', meditations: ['Calma rápida', 'Aflojar el estrés'] },
-  'Ir más despacio': { title: 'No hay ningún apuro.', text: 'Vamos despacito, a tu ritmo.', breath: 'vaciarse', meditations: ['Calma rápida', 'Cuenta regresiva'] },
-  'Soltar tensión': { title: 'Lo que sientes tiene lugar.', text: 'Y de a poquito lo puedes ir soltando.', breath: 'suspiro', meditations: ['Para el enojo', 'Recorrido corporal'] },
-  'Un abrazo': { title: 'Ven, descansa un poco.', text: 'Está bien sentirte así. Trátate con cariño.', breath: 'pareja', meditations: ['Para la tristeza', 'Tratarte bien'] },
-  'Una pausa': { title: 'Te mereces este momento.', text: 'No hace falta poder con todo.', breath: 'pareja', meditations: ['Una pausa', 'Escáner corporal'] },
-  Agradecer: { title: 'Qué lindo que estés aquí.', text: 'Quédate un ratito con lo bueno.', breath: 'pareja', meditations: ['Gratitud', 'Empezar con energía'] },
-  'Dormir en paz': { title: 'Ya puedes soltar el día.', text: 'Por hoy, ya hiciste suficiente.', breath: '478', meditations: ['Dormir profundo', 'El jardinero de las nubes'] },
-}
-
-// "No lo sé": una sola cosa, sin nada más que decidir.
-export const unsure = {
-  title: 'No hace falta saberlo.',
-  text: 'Está bien sentirte así. Vamos de a poquito, con un minuto de respiración suave.',
-  how: 'Deja entrar el aire por la nariz y suéltalo despacito por la boca. El círculo te acompaña.',
-  breath: 'vaciarse',
-  minutes: 1,
-}

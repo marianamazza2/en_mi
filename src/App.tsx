@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react'
-import { advice, breaths, groups, meditations, needs, unsure, UNSURE, type Breath, type Meditation, type Need } from './content'
+import { breaths, groups, meditations, type Breath, type Meditation } from './content'
 import { themeAt, useSaved, type Theme } from './lib'
 import { Emblem, Icon, NavIcon, RhythmChart, RhythmIcon } from './Art'
 import { Logo } from './Brand'
@@ -16,8 +16,12 @@ const route = () => location.hash.slice(1) || 'inicio'
 const testing = import.meta.env.DEV || new URLSearchParams(location.search).has('prueba')
 const apple = /iPhone|iPad|iPod/.test(navigator.userAgent)
 const FAVORITES = 'Favoritas'
-// la barra de abajo; al inicio se vuelve con el logo
-const TABS = [['meditar', 'Meditar'], ['respirar', 'Respirar'], ['musica', 'Música']] as const
+// los tres caminos del inicio; desde cada uno se vuelve tocando el logo
+const PATHS = [
+  ['meditar', 'Meditar', 'Meditaciones guiadas para acompañarte'],
+  ['respirar', 'Respirar', 'Un círculo que marca el ritmo'],
+  ['musica', 'Música', 'Sonidos y melodías para relajarte'],
+] as const
 
 function Speaker() {
   const on = useSyncExternalStore(sound.subscribe, sound.get) === 'on'
@@ -47,7 +51,6 @@ export function App() {
   const [path, setPath] = useState(route)
   const [hourTheme, setHourTheme] = useState(() => themeAt(new Date().getHours()))
   const [testTheme, setTestTheme] = useState<Theme>()
-  const [need, setNeed] = useState<Need>()
   const [open, setOpen] = useState('') // entra con todo cerrado
   const [favorites, setFavorites] = useSaved<string[]>('favorites', [])
   const [stars, setStars] = useSaved('stars', 0)
@@ -84,7 +87,7 @@ export function App() {
 
   useLayoutEffect(() => {
     scroller.current?.scrollTo(0, path.includes('/') ? 0 : scrolled.current[path] ?? 0)
-  }, [path, need, running])
+  }, [path, running])
 
   useEffect(() => {
     if (running) return // nunca cambia en medio de una respiración
@@ -125,15 +128,14 @@ export function App() {
     setTimeout(() => header.parentElement?.scrollIntoView({ block: 'nearest', behavior: 'smooth' }), 770)
   }
 
-  const leaveNeed = () => { if (need) crossfade(() => setNeed(undefined)) }
   const [section, id] = path.split('/')
   const breath = section === 'respirar' ? breaths.find(b => b.id === id) : undefined
   const item = section === 'meditar' ? meditations.find(m => m.id === id) : undefined
-  const atHome = !TABS.some(([key]) => key === section)
+  const atHome = !PATHS.some(([key]) => key === section)
   const installed = matchMedia('(display-mode: standalone)').matches
   const back = () => go(from.current || section)
   const tabs = !running && !breath && !item
-  const onHome = entered && tabs && atHome && !need
+  const onHome = entered && tabs && atHome
 
   useEffect(() => {
     if (!onHome || guided) return setShowGuide(false)
@@ -146,15 +148,15 @@ export function App() {
     ? [...groups, { name: FAVORITES, when: 'Las que te hacen bien' }] : groups
 
   return <>
-    <Scene theme={theme} calm={!!running} shade={!entered ? 'none' : running || breath || item ? 'soft' : !atHome || need ? 'deep' : 'home'} earned={stars} />
+    <Scene theme={theme} calm={!!running} shade={!entered ? 'none' : running || breath || item ? 'soft' : !atHome ? 'deep' : 'home'} earned={stars} />
 
     <div className="stage" inert={showGuide}>
     {!entered ? <Welcome onEnter={() => crossfade(() => setEntered(true), 'welcome')} /> : <div className="app">
       <header>
         {running ? <span />
           : breath || item ? <Back onClick={back} />
-          : atHome && need ? <Back onClick={leaveNeed} />
-          : <button className="brand" aria-label="Volver al inicio" onClick={() => { leaveNeed(); go('inicio') }}><Logo /></button>}
+          // el logo siempre lleva al inicio
+          : <button className="brand" aria-label="Volver al inicio" onClick={() => go('inicio')}><Logo /></button>}
         {item
           ? <button className="tool end favorite" aria-label="Favorita" aria-pressed={favorites.includes(item.id)}
               onClick={() => setFavorites(f => f.includes(item.id) ? f.filter(x => x !== item.id) : [...f, item.id])}><Icon name="heart" /></button>
@@ -240,40 +242,20 @@ export function App() {
         </div>
       </main>
 
-      : need === UNSURE ? <main className="screen" key={need}>
-        <div className="scroll listing unsure" ref={scroller}>
-          <h1>{unsure.title}</h1>
-          <p className="unsure-text">{unsure.text}</p>
-          <p className="unsure-how">{unsure.how}</p>
-        </div>
-        <footer className="single">
-          <p className="caution">Si te mareas, vuelve a tu ritmo natural.<br />Evita hacerlo al manejar o en el agua.</p>
-          <button className="primary" onClick={() => start(breaths.find(b => b.id === unsure.breath)!, unsure.minutes, true)}>Respirar un minuto</button>
-        </footer>
-      </main>
-
-      : need ? <main className="screen" key={need}>
-        <div className="scroll listing recommended" ref={scroller}>
-          <h1>{advice[need].title}</h1>
-          <p className="subtitle">{advice[need].text}</p>
-          <h2>Puedes respirar</h2>
-          <BreathItem breath={breaths.find(b => b.id === advice[need].breath)!} />
-          <h2>O puedes meditar</h2>
-          <div className="practices">{advice[need].meditations.map(name => meditations.find(m => m.name === name)!).map(m => <Practice key={m.id} item={m} />)}</div>
-        </div>
-      </main>
-
       : <main className="screen" key="inicio">
         <div className="scroll home" ref={scroller}>
           <h1>¿Qué te haría<br /><span>bien ahora?</span></h1>
           <p className="subtitle">Un momento para volver a ti</p>
-          <div className="needs">{needs.map(n => <button key={n} className="need" onClick={() => crossfade(() => setNeed(n))}>{n}</button>)}</div>
+          <div className="paths">{PATHS.map(([key, label, about]) =>
+            <button key={key} className="path" data-path={key} onClick={() => go(key)}>
+              <span className="ring"><NavIcon name={key} /></span>
+              <span><b>{label}</b><span className="use">{about}</span></span>
+              <Icon name="chevron" />
+            </button>)}
+          </div>
         </div>
       </main>}
 
-      {tabs && <nav>{TABS.map(([key, label]) =>
-        <button key={key} aria-current={section === key ? 'page' : undefined}
-          onClick={() => go(key)}><NavIcon name={key} />{label}</button>)}</nav>}
     </div>}
     </div>
 
@@ -281,6 +263,6 @@ export function App() {
 
     {testing && !running && <div className="test">{(['dia', 'atardecer', 'noche'] as Theme[]).map(t =>
       <button key={t} aria-pressed={theme === t} onClick={() => setTestTheme(t)}>{t === 'dia' ? 'día' : t}</button>)}
-      <button onClick={() => { setGuided(false); if (path !== 'inicio') go('inicio'); if (need) leaveNeed() }}>ver guía</button></div>}
+      <button onClick={() => { setGuided(false); if (path !== 'inicio') go('inicio') }}>ver guía</button></div>}
   </>
 }

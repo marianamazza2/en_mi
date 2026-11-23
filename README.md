@@ -17,14 +17,14 @@ Web app para meditar y respirar, para Android y iPhone.
 - En la app: `src/Brand.tsx`. Íconos del celu y favicon: `public/`.
 
 ## Tono
-- El inicio pregunta qué necesita, no qué le pasa. No usar nombres de malestares como botones, ni guardar historial de ánimo.
+- No usar nombres de malestares como botones, ni guardar historial de ánimo.
 - Suave y amoroso: invitar en vez de ordenar, "te cuesta" en vez de "no puedes".
 
 ## Música
 - Secciones, textos y playlists: `src/music.ts`. Portadas: `src/artwork/` (una función por portada).
 
 ## Guía de primera vez
-- Los cuatro cartelitos están en `src/Guide.tsx`. Se ven una sola vez por celu; con `?prueba`, "ver guía" los repite.
+- Los tres cartelitos están en `src/Guide.tsx`. Se ven una sola vez por celu; con `?prueba`, "ver guía" los repite.
 
 ## Transiciones
 - Fundido cruzado: tiempos y curvas en `src/transition.ts`.
