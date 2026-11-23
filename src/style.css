@@ -116,7 +116,6 @@ footer{flex:none}
 [data-id=pareja]{--tint:189,215,183}
 [data-id=cuadrada]{--tint:237,202,169}
 [data-id='478']{--tint:193,185,239}
-.install{display:flex;align-items:center;margin-top:130px;color:var(--soft);font-size:13px;line-height:18px}
 
 /* música */
 .music section{margin-top:34px}

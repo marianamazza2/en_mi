@@ -54,7 +54,6 @@ export function App() {
   const [open, setOpen] = useState('') // entra con todo cerrado
   const [favorites, setFavorites] = useSaved<string[]>('favorites', [])
   const [stars, setStars] = useSaved('stars', 0)
-  const [installSeen, setInstallSeen] = useSaved('installSeen', false)
   const [guided, setGuided] = useSaved('guided', false)
   const [showGuide, setShowGuide] = useState(false)
   const [minutes, setMinutes] = useState(3)
@@ -132,7 +131,6 @@ export function App() {
   const breath = section === 'respirar' ? breaths.find(b => b.id === id) : undefined
   const item = section === 'meditar' ? meditations.find(m => m.id === id) : undefined
   const atHome = !PATHS.some(([key]) => key === section)
-  const installed = matchMedia('(display-mode: standalone)').matches
   const back = () => go(from.current || section)
   const tabs = !running && !breath && !item
   const onHome = entered && tabs && atHome
@@ -227,10 +225,6 @@ export function App() {
           <h1>Respirar</h1>
           <p className="subtitle">Déjate llevar por el círculo</p>
           <div className="breaths">{breaths.map(b => <BreathItem key={b.id} breath={b} />)}</div>
-          {!installed && !installSeen && <div className="install">
-            <span>{apple ? 'Para tenerla siempre cerca, en Safari: Compartir → Agregar a inicio.' : 'Para tenerla siempre cerca, en Chrome: menú ⋮ → Instalar.'}</span>
-            <button className="tool end" aria-label="Cerrar aviso" onClick={() => crossfade(() => setInstallSeen(true))}>×</button>
-          </div>}
         </div>
       </main>
 
